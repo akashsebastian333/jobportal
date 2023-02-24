@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<h1 class="max-w-lg text-3xl font-semibold leading-relaxed text-gray-900 dark:text-white transform  transition-all ">{{ job_post.title }}</h1>
+
+<p class="text-xl font-semibold text-blue-600/100 dark:text-blue-500/100 transform hover:scale-105 transition-all duration-500 cursor-pointer inline-block bg-gray-900 px-2 py-1 rounded-lg shadow-md hover:shadow-lg"> {{ job_post.company }} </p>
+
+<p class="text-gray-500 whitespace-pre-line dark:text-gray-400">{{ job_post.description }}</p>
+
+
+<!-- for job poster -->
+<div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-4">
+  {% if request.user == job_post.user %}
+    {% if job_post.submission_set.exists %}
+      <h2 class="text-2xl font-bold text-purple-600 mb-4">Submissions:</h2>
+      <ul class="list-disc pl-6 mb-4">
+      {% for submission in job_post.submission_set.all %}
+        <li class="text-lg text-gray-900 dark:text-white mb-2 hover:text-purple-600 transition duration-300 ease-in-out">
+          <span class="font-bold">{{ submission.user.username }}</span> - 
+          <a href="{{ submission.resume.url }}" class="text-purple-600 hover:text-purple-400 transition duration-300 ease-in-out">Download resume</a>
+        </li>
+      {% endfor %}
+      </ul>
+    {% else %}
+      <p class="text-lg text-purple-600 mb-4">No submissions yet.</p>
+    {% endif %}
+  {% else %}
+    <h2 class="text-2xl font-bold text-purple-600 mb-4">Submissions:</h2>
+    <p class="text-lg text-gray-900 dark:text-white mb-4">You must be the job poster to view submissions.</p>
+ 
+</div>
+
+
+
+
+<!-- hehe resume submit-->
+<div class="bg-gray-800 rounded-md shadow-lg p-4 hover:shadow-2xl transition-shadow duration-300">
+  <h2 class="text-lg font-medium text-white mb-4">Submit your resume:</h2>
+  <form method="post" enctype="multipart/form-data" class="space-y-4">
+    {% csrf_token %}
+    <div class="flex flex-col space-y-2">
+      <label for="{{ form.title.id_for_label }}" class="text-white font-medium">{{ form.title.label }}</label>
+      {{ form.title }}
+    </div>
+    <div class="flex flex-col space-y-2">
+      <label for="{{ form.company.id_for_label }}" class="text-white font-medium">{{ form.company.label }}</label>
+      {{ form.company }}
+    </div>
+    <div class="flex flex-col space-y-2">
+      <label for="{{ form.description.id_for_label }}" class="text-white font-medium">{{ form.description.label }}</label>
+      {{ form.description }}
+    </div>
+    <div class="flex flex-col items-center justify-center space-y-2">
+      <label for="file-upload" class="relative cursor-pointer text-white font-bold py-2 px-4 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 transition-colors duration-300 ease-in-out hover:from-purple-600 hover:to-indigo-700 animate-fade-in">
+        <span>Choose file</span>
+        <input id="file-upload" name="resume" type="file" class="sr-only">
+      </label>
+      <p id="file-name" class="text-xs text-gray-500">No file chosen</p>
+      <p class="text-xs text-gray-500">PDF of Max size 50 MB.</p>
+    </div>
+    <div class="flex justify-end">
+    <button type="submit" class="bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded-full transition-colors duration-300 ease-in-out hover:shadow-md animate-fade-in">Submit</button>
+    </div>
+  </form>
+</div>
+
+    
+
+    <script>
+      const fileInput = document.getElementById('file-upload');
+      const fileName = document.getElementById('file-name');
+    
+      fileInput.addEventListener('change', () => {
+        fileName.textContent = fileInput.files[0].name;
+      });
+    </script>
+
+
+  
+</div>
+
+  
+{% endif %}
+{% endblock %}

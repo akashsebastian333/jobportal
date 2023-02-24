@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1 class="text-purple-600">Send Message</h1>
+
+  <form method="post" class="max-w-lg mx-auto my-8">
+    {% csrf_token %}
+    <div class="mb-4">
+      <label class="block text-purple-700 font-bold mb-2" for="id_subject">Subject</label>
+      {{ form.subject }}
+    </div>
+    <div class="mb-4">
+      <label class="block text-purple-700 font-bold mb-2" for="id_recipient">To</label>
+      {{ form.recipient }}
+    </div>
+    <div class="mb-4">
+      <label class="block text-purple-700 font-bold mb-2" for="id_body">Message</label>
+      {{ form.body }}
+    </div>
+    <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded">Send Message</button>
+  </form>
+{% endblock %}

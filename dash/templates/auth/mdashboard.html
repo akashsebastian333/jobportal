@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.0/dist/full.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+
+
+
+
+<style>
+  /* Hide the close button by default */
+  .drawer-button-close {
+    display: none;
+  }
+
+  /* Show the close button when the drawer is open */
+  #my-drawer-2:checked + .drawer-side .drawer-button-close {
+    display: block;
+  }
+
+  /* Add animation to the drawer */
+  .drawer-side {
+    animation: slide-in-left 0.5s ease-out;
+  }
+
+  @keyframes slide-in-left {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+
+  /* Add shadow to the drawer */
+  .drawer-side {
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Add hover effect to the menu items */
+  .menu li a:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+</style>
+  <div class="drawer-toggle-container float-right mr-4 mt-4">
+    <label for="my-drawer-2" class="btn btn-primary drawer-button lg:hidden">Options</label>
+  </div>
+  <div class="drawer drawer-mobile">
+    <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+    <div class="drawer-content flex flex-col items-center justify-center shadow-lg transform transition duration-500 hover:-translate-y-1 hover:scale-110">
+
+
+
+
+
+      <!-- Page content here -->
+
+      <h1 class=" text-4xl font-black text-gray-900 dark:text-white text-purple-500"> hi ,{{username}} </h1>
+      <p>Welcome</p>
+      
+
+
+
+    </div> 
+<br>
+
+
+<div class="drawer-side">
+  <label for="my-drawer-2" class="drawer-overlay"></label> 
+  <ul class="menu p-2 w-80 bg-base-100">
+    <!-- Sidebar content here -->
+    <li class="mb-4"><a href="/dashboard/submissions" class="text-lg font-bold text-emerald-600 dark:to-emerald-600 hover:text-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1"><i class="fas fa-file-alt mr-2"></i>Submissions</a></li>
+    <li class="mb-4"><a href="/dashboard/joblistings" class="text-lg font-bold text-emerald-600 dark:to-emerald-600 hover:text-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1"><i class="fas fa-briefcase mr-2"></i>Job Listings</a></li>
+    <li class="mb-4"><a href="/dashboard/myapplications" class="text-lg font-bold text-emerald-600 dark:to-emerald-600 hover:text-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1"><i class="fas fa-clipboard-list mr-2"></i>My Applications</a></li>
+    <li class="mb-4"><a href="/dashboard/inbox" class="text-lg font-bold text-emerald-600 dark:to-emerald-600 hover:text-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1"><i class="fas fa-envelope mr-2"></i>Messages</a></li>
+    <li><a href="/dashboard/all" class="text-lg font-bold text-emerald-600 dark:to-emerald-600 hover:text-purple-600 transition duration-300 ease-in-out transform hover:-translate-y-1"><i class="fas fa-search mr-2"></i>Find Jobs</a></li>
+  </ul>
+
+</div>
+
+
+
+  
+
+ 
+ 
+ 
+<!--
+
+{% for job_post in job_posts %}
+    <div class="job-post">
+        <h2>{{ job_post.title }}</h2>
+        <h4>{{ job_post.company }}</h4>
+        <p>{{ job_post.description }}</p>
+        <p>Posted by {{ job_post.user.username }} on {{ job_post.created_at }}</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" name="delete_job" value="{{ job_post.id }}">Delete</button>
+        </form>
+    </div>
+{% endfor %}
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" name="post_job">Post Job</button>
+</form> -->
+
+{% endblock content %}

@@ -1,0 +1,69 @@
+{% extends 'base.html' %} 
+{% block content %}
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.50.1/dist/full.css" rel="stylesheet" type="text/css" />
+
+
+    <body class="bg-gray-200">
+        <h1 class="text-3xl font-bold mb-4">Post new Job</h1>
+
+        <form method="post" class="max-w-3xl mx-auto">
+            {% csrf_token %}
+            <div class="mb-6">
+              <label for="{{ form.title.id_for_label }}" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Title</label>
+              <input type="text" name="{{ form.title.name }}" id="{{ form.title.id_for_label }}" class="w-full border rounded py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ form.title.value }}">
+            </div>
+            <div class="mb-6">
+              <label for="{{ form.company.id_for_label }}" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Company</label>
+              <input type="text" name="{{ form.company.name }}" id="{{ form.company.id_for_label }}" class="w-full border rounded py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ form.company.value }}">
+            </div>
+            <div class="mb-6">
+              <label for="{{ form.job_type.id_for_label }}" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Job Type</label>
+              <select name="job_type" id="id_job_type">
+                <option value="full_time">Full Time</option>
+                <option value="part_time">Part Time</option>
+                <option value="contract">Contract</option>
+                <option value="internship">Internship</option>
+                <option value="freelance">Freelance</option>
+              </select>
+            </div>
+            <div class="mb-6">
+              <label for="{{ form.description.id_for_label }}" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Description</label>
+              <textarea name="{{ form.description.name }}" id="{{ form.description.id_for_label }}" class="w-full border rounded py-2 px-3 text-green-700 leading-tight focus:outline-none focus:shadow-outline" rows="5">{{ form.description.value }}</textarea>
+            </div>
+            <div class="flex items-center justify-between">
+              <button type="submit" name="post_job" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                Post Job
+              </button>
+            </div>
+          </form>
+          
+          
+    </div>
+
+    <div class="container mx-auto mt-8">
+        <h1 class="text-3xl font-bold mb-4">Your Job Posts</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {% for job_post in job_posts %}
+                <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <div class="card-header">
+                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ job_post.title }}</h5>
+                        <h4 class="card-subtitle text-lg font-medium text-gray-500 dark:text-gray-300">{{ job_post.company }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text text-gray-700 dark:text-gray-400">{{ job_post.description|truncatechars:100 }}.</p>
+                        <p class="card-text text-gray-700 dark:text-gray-400">Posted by {{ job_post.user.username }} on {{ job_post.created_at }}</p>
+                    </div>
+                    <div class="card-footer">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="delete_job" value="{{ job_post.id }}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock content %}
+

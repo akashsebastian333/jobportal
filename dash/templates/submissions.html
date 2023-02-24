@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-green-500 mb-4 text-purple-600">All Submissions</h1>
+
+<div class="overflow-x-auto">
+
+
+
+
+  <div class="bg-white dark:bg-gray-800 rounded-lg shadow overflow-hidden">
+    <div class="px-6 py-4">
+      <h1 class="text-green-500 dark:text-green-300 mb-4 text-purple-600 text-2xl font-medium">Submissions</h1>
+  
+      <ul class="divide-y divide-gray-200">
+        {% for submission in submissions %}
+          <li class="py-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-300 ease-in-out transform hover:-translate-y-1">
+            <div class="flex justify-between items-center">
+              <div class="flex items-center space-x-4">
+                <div class="flex-shrink-0">
+                </div>
+                <div>
+                  <h3 class="text-lg font-medium text-gray-900 dark:text-gray-300">{{ submission.job_post.title }}</h3>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ submission.user.username }}</p>
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ submission.job_post.company }}</p>
+                </div>
+              </div>
+              <div class="flex items-center space-x-4">
+                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">{{ submission.created_at|date:'M d, Y' }}</p>
+                <a href="{{ submission.resume.url }}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-purple-600 dark:text-purple-400 bg-white dark:bg-gray-800 hover:bg-purple-600 dark:hover:bg-purple-400 hover:text-white dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 dark:focus:ring-purple-300 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">Download Resume</a>
+                <a href="{% url 'send_message' submission_id=submission.id %}" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-purple-600 dark:text-purple-400 bg-white dark:bg-gray-800 hover:bg-purple-600 dark:hover:bg-purple-400 hover:text-white dark:hover:text-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 dark:focus:ring-purple-300 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-110">Send Message</a>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+      
+
+
+
+    </div>
+  </div>
+  
+  
+  
+
+
+
+</div>
+
+<style>
+  li:hover {
+    transform: scale(1.02);
+    transition: all 0.2s ease-in-out;
+  }
+  
+
+
+  .table-auto {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .table-auto td,
+  .table-auto th {
+    border: 1px solid #e2e8f0;
+    padding: 0.75rem;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .text-green-500 {
+    color: #48bb78;
+  }
+
+  .text-purple-600 {
+    color: #6b46c1;
+  }
+
+  .hover\:underline:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 640px) {
+    .table-auto {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .table-auto thead {
+      display: none;
+    }
+    .table-auto tr {
+      border-bottom: 1px solid #e2e8f0;
+      display: inline-block;
+      vertical-align: top;
+    }
+    .table-auto td {
+      display: block;
+      text-align: right;
+      padding-left: 50%;
+      position: relative;
+    }
+    .table-auto td::before {
+      content: attr(data-label);
+      display: inline-block;
+      font-weight: bold;
+      left: 0;
+      position: absolute;
+      text-align: left;
+      top: 0;
+    }
+  }
+</style>
+
+{% endblock %}

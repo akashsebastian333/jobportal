@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if page_obj.has_other_pages %}
+<div class="pagination">
+  <span class="step-links">
+      {% if page_obj.has_previous %}
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page=1">&laquo; first</a>
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
+      {% endif %}
+
+      <span class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" class="current-page">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+  </span>
+</div>
+{% endif %}
+
+{% for job_post in page_obj %}
+  <br>
+  <a href="{% url 'job_detail' job_id=job_post.id %}">
+    <div class="dark:bg-slate-800 job-post max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+      <div class="md:flex">
+        <div class="md:shrink-0">
+        </div>
+        <div class="p-8">
+          <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{ job_post.title }} <br>
+              <a class="text-xs leading-7 text-gray-500 dark:text-gray-400"><b>{{ job_post.company }}</b></a></div>
+          
+          <div class="flex justify-between items-center my-2">
+            
+            {% if job_post.job_type == 'full_time' %}
+              <p class="text-xs leading-7 text-gray-500 dark:text-gray-400">Full Time</p>
+            {% elif job_post.job_type == 'part_time' %}
+              <p class="text-xs leading-7 text-green-500 dark:text-gray-400">Part Time</p>
+            {% else %}
+              <p class="text-xs leading-7 text-green-500 dark:text-gray-400"><u>{{ job_post.job_type }}</u></p>
+            {% endif %}
+          </div>
+          <p class="mt-2 text-slate-500">{{ job_post.description|truncatechars:200 }}.</p>
+          <p class="text-xs my-2 leading-7 text-green-500 dark:text-gray-400">Posted by {{ job_post.user.username }} on {{ job_post.created_at }}</p>
+          {% if request.user.is_superuser and request.user != job_post.user %}
+            <form method="post">
+              {% csrf_token %}
+              <button class="rounded-full" name="delete_job" value="{{ job_post.id }}" >Delete</button>
+            </form>
+          {% elif request.user == job_post.user %}
+            <form method="get" action="{% url 'edit_job' job_post.id %}">
+              {% csrf_token %}
+              <button class="rounded-full" type="submit">Edit</button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </a>
+{% endfor %}
+
+
+{% if page_obj.has_other_pages %}
+
+<div class="pagination inline-flex">
+  <span class="text-xs my-2 leading-7 text-gray-500 dark:text-gray-400 step-links">
+      {% if page_obj.has_previous %}
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page=1">&laquo; first</a>
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page={{ page_obj.previous_page_number }}">&lsaquo; previous</a>
+      {% endif %}
+
+      <span class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" class="current-page">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+      </span>
+
+      {% if page_obj.has_next %}
+          <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page={{ page_obj.next_page_number }}">next &rsaquo;</a>
+         
+
+                <a class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l" href="?page={{ job_posts.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% else %}
+    <p>No job posts found.</p>
+{% endif %}
+{% endblock content %}
