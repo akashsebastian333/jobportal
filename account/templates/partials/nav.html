@@ -1,0 +1,87 @@
+<nav class="p-6 flex">
+    <a class="flex space-x-4" href="/">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="344.564 330.278 111.737 91.218" width="53.87" height="43.61"><defs><linearGradient id="logo_svg__b" gradientUnits="userSpaceOnUse" x1="420.97" y1="331.28" x2="420.97" y2="418.5"><stop style="stop-color:#06b6d4;stop-opacity:1" offset="0%"></stop><stop style="stop-color:#67e8f9;stop-opacity:1" offset="100%"></stop></linearGradient><linearGradient id="logo_svg__d" gradientUnits="userSpaceOnUse" x1="377.89" y1="331.28" x2="377.89" y2="418.5"><stop style="stop-color:#06b6d4;stop-opacity:1" offset="0%"></stop><stop style="stop-color:#67e8f9;stop-opacity:1" offset="100%"></stop></linearGradient><path d="M453.3 331.28v28.57l-64.66 58.65v-30.08l64.66-57.14Z" id="logo_svg__a"></path><path d="M410.23 331.28v28.57l-64.67 58.65v-30.08l64.67-57.14Z" id="logo_svg__c"></path></defs><use xlink:href="#logo_svg__a" fill="url(#logo_svg__b)"></use><use xlink:href="#logo_svg__c" fill="url(#logo_svg__d)"></use></svg>
+        <h1 class="text-3xl text-gray-100 bold"><b>JobAssure</b></h1>
+    </a>
+    {% if not request.user.is_authenticated %}
+<div class="hidden md:flex ml-auto space-x-4">
+    
+
+    
+    
+    
+    <a href="/jobs">
+        <button class="p-1 font-medium text-gray-100 sm:p-4 uppercase hover:text-cyan-500">Jobs</button>
+    </a>
+
+    <a href="/account/login">
+        <button class="p-1 font-medium text-gray-100 sm:p-4 uppercase hover:text-cyan-500">login</button>
+    </a>
+    <a href="/account/signup">
+        <button class="p-1 font-medium  sm:p-4 text-gray-100 uppercase hover:text-cyan-500">register</button>
+    </a>
+
+    
+</div>
+{% else %}
+
+<div class="hidden md:flex ml-auto space-x-4">
+    
+
+    <a href="/dashboard">
+        <button class="p-1 font-medium text-gray-100 sm:p-4 uppercase hover:text-cyan-500">Dashboard</button>
+    </a>
+    <a href="/account/logout">
+        <button class="p-1 font-medium  sm:p-4 text-gray-100 uppercase hover:text-cyan-500">Logout</button>
+    </a>
+
+    
+</div>
+{% endif %}
+    <div class="md:hidden flex items-center ml-auto">
+        <button class="outline-none mobile-menu-button">
+            <svg
+                class="w-6 h-6 text-gray-500"
+                x-show="!showMenu"
+                fill="none"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+            >
+            <path d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+        </button>
+</div>
+
+<div class="hidden mobile-menu md:hidden">
+    <ul class="absolute top-20 right-0 h-full space-y-10">
+        <li class="active">
+            <a href="/" class="block px-2 py-4 text-gray-100 bg-black font-semibold">Home</a></li>
+            {% if request.user.is_authenticated %}
+        <li>
+            <a href="/account/logout" class="block px-2 py-4 text-gray-100 bg-black font-semibold transition duration-300">Log out</a></li>
+            <a href="/dashboard" class="block px-2 py-4 text-gray-100 bg-black font-semibold transition duration-300">Dashboard</a></li>
+            {% else %}
+
+            <li>
+                <a href="/account/login" class="block px-2 py-4 text-gray-100 bg-black font-semibold transition duration-300">Login</a></li>
+            <li>
+                <a href="/account/signup" class="block px-2 py-4 text-gray-100 bg-black font-semibold transition duration-300">Sign up</a></li>
+
+        {% endif %}
+    </ul>
+</div>
+</nav>
+
+<script>
+// Grab HTML Elements
+const btn = document.querySelector("button.mobile-menu-button");
+const menu = document.querySelector(".mobile-menu");
+
+// Add Event Listeners
+btn.addEventListener("click", () => {
+menu.classList.toggle("hidden");
+});
+</script>

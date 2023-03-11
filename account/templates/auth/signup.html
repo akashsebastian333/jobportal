@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+    <div class="flex space-x-4 justify-center">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0,0,256,256" width="96px" height="96px" fill-rule="nonzero"><g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(10.66667,10.66667)"><path d="M11.5,1c-1.933,0 -3.5,1.567 -3.5,3.5c0,1.933 1.567,3.5 3.5,3.5c1.933,0 3.5,-1.567 3.5,-3.5c0,-1.933 -1.567,-3.5 -3.5,-3.5zM7,9c-1.654,0 -3,1.346 -3,3v4h3.23047c1.182,3.877 4.26653,6 8.76953,6c0.96,0 2.36127,-0.06347 3.44727,-0.60547l2.05078,-1.02539l-2.14648,-0.80664c-2.497,-0.936 -3.1313,-2.4815 -3.2793,-3.5625h2.92773v-4c0,-1.654 -1.346,-3 -3,-3z"></path></g></g></svg>
+    </div>
+    <h2 class="mt-6 text-center text-3xl font-bold text-gray-100">
+        Create Account
+        </h2>
+        
+        {% if form.errors %}
+        <div class="bg-red-500 rounded-md">
+            {% for field in form %}
+                {% for error in field.errors %}
+                <li class="text-gray-100 text-lg ml-2">
+                    {{error}}
+                </li>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    <form class="mt-8 space-y-6" action="" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="remember" value="true">
+        <div class="rounded-md shadow-sm -space-y-px">
+        <div class="my-4">
+            <label for="username" class="sr-only">Username</label>
+            <input id="username" name="username" type="text" autocomplete="name" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Username">
+        </div>
+        <div>
+            <label for="email-address" class="sr-only">Password</label>
+            <input id="email-address" name="email" type="email" autocomplete="current-password" required class="mb-5 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email">
+        </div>
+        <div>
+            <label for="password" class="sr-only">Password</label>
+            <input id="password" name="password1" type="password" autocomplete="current-password" required class="mb-5 appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password">
+        </div>
+        <div>
+            <label for="password" class="sr-only">Confirm Password</label>
+            <input id="password" name="password2" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Confirm Password">
+        </div>
+        </div>
+
+
+        <div>
+        <button type="submit" class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-gray-100 text-gray-100 bg-gradient-to-r from-blue-500 to-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+            <!-- Heroicon name: solid/lock-closed -->
+            <svg class="h-5 w-5 text-gray-100 group-hover:text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" />
+            </svg>
+            </span>
+            Register
+        </button>
+        </div>
+    </form>
+    
+        <a class="text-white" href="/account/login">
+            <h1 class="text-center mt-5">Already have an account? Login</h1>
+        </a>
+    </div>
+</div>
+{% endblock content %}
