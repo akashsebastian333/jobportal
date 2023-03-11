@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dark:bg-slate-800 job-post max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl">
+    <div class="md:flex">
+      <div class="md:shrink-0">
+      </div>
+      <div class="p-8">
+        <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">{{ job_post.title }}</div>
+        <p class="text-xs my-2 leading-7 text-gray-500 dark:text-gray-400">{{ job_post.company }}</p>
+        <p id="job-description" class="mt-2 text-slate-500">{{ job_post.description|truncatewords:50 }}</p>
+        {% if job_post.description|wordcount > 50 %}
+        <button id="show-full-description-button" class="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus:text-gray-700" onclick="showFullDescription()">Show Full Description</button>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="job_post_id" value="{{ job_post.id }}">
+            <div class="mt-4">
+                <label for="resume">Upload your resume:</label>
+                <input type="file" id="resume" name="resume">
+            </div>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">Submit Resume</button>
+        </form>
+      </div>
+    </div>
+</div>
+{% endblock content %}

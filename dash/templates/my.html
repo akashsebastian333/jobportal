@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block head %}
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.50.1/dist/full.css" rel="stylesheet" type="text/css" />
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://cdn.jsdelivr.net/npm/daisyui@2.50.1/dist/full.css" rel="stylesheet" type="text/css" />
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2/dist/tailwind.min.css" rel="stylesheet" type="text/css" />
+
+  <style>
+    h1, h2, h3, h4, h5, h6 {
+      color: #9b5de5;
+    }
+    .delete-button {
+      background-color: #e63946;
+      color: white;
+    }
+    .delete-button:hover {
+      background-color: #ff5252;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <h1 class="text-purple-600 text-3xl font-bold mb-4">My Applications</h1>
+
+  {% if submissions %}
+    <table class="text-blue-600 table table-hover w-full">
+      <thead>
+        <tr>
+          <th class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 px-4 py-2">Job Title</th>
+          <th class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 px-4 py-2">Company</th>
+          <th class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 px-4 py-2">Resume</th>
+          <th class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 px-4 py-2">Submitted</th>
+          <th class="tracking-tighter text-gray-500 md:text-lg dark:text-gray-400 px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for submission in submissions %}
+          <tr class="border-b border-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800">
+            <td class="px-4 py-2">{{ submission.job_post.title }}</td>
+            <td class="px-4 py-2">{{ submission.job_post.company }}</td>
+            <td class="px-4 py-2">
+              <a href="{{ submission.resume.url }}" class="text-blue-600 hover:text-blue-800">{{ submission.resume.name|slice:"8:" }}</a>
+            </td>
+            <td class="px-4 py-2">{{ submission.created_at }}</td>
+            <td class="px-4 py-2">
+              <form method="POST" action="{% url 'my_files' %}">
+                {% csrf_token %}
+                <input type="hidden" name="submission_id" value="{{ submission.id }}">
+                <button type="button" class="text-red-600 btn btn-outline btn-square delete-button" onclick="deleteSubmission(this.form)">
+                  <span class="inline-block animate-pulse">Delete</span>
+                </button>
+              </form>
+            </td>
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="5" class="px-4 py-2">No files found.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>You haven't uploaded any files yet.</p>
+  {% endif %}
+
+  <script>
+    function deleteSubmission(form) {
+      if (confirm('Are you sure you want to delete this file?')) {
+        form.submit();
+      }
+    }
+  </script>
+{% endblock %}

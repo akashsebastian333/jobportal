@@ -1,0 +1,48 @@
+{% load blog_extras %}
+
+<ul class="divide-y divide-gray-700 w-full mx-auto md:px-20">
+    {% for post in posts %}
+      <li class="py-12">
+      <article>
+          <dl>
+              <dt class="sr-only">Published on</dt>
+              <dd class="text-base font-medium leading-6 text-gray-500 text-gray-400">
+                  <time datetime="2021-08-07T15:32:14.000Z">{{ post.date }}</time>
+              </dd>
+          </dl>
+          <h2 class="text-2xl font-bold leading-8 tracking-tight my-3">
+              <a class="text-gray-100" href="#">{{ post.title }}</a>
+          </h2>
+          <div class="prose max-w-none text-gray-400 my-3">{{ post.description|convert_markdown|safe }}</div>
+          <a href="/blog/{{post.slug}}">
+            <button class="text-gray-100 bg-gradient-to-r from-blue-500 to-cyan-500  rounded-full p-2 flex">Read more
+              <span><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg></span>
+          </button>
+        </a>
+      </article>
+    </li>
+    {% endfor %}
+  </ul>
+  {% if posts.has_other_pages %}
+    <ul class="flex justify-center text-white border-white space-x-10 text-2xl">
+      {% if posts.has_previous %}
+        <li><a href="?page={{ posts.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&laquo;</span></li>
+      {% endif %}
+      {% for i in posts.paginator.page_range %}
+        {% if posts.number == i %}
+          <li class="active"><span class="border border-blue text-gray-100 px-2">{{ i }} <span class="sr-only  class="border border-blue text-gray-100 px-2"">(current)</span></span></li>
+        {% else %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% endif %}
+      {% endfor %}
+      {% if posts.has_next %}
+        <li><a href="?page={{ posts.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li class="disabled"><span>&raquo;</span></li>
+      {% endif %}
+    </ul>
+    {% endif %}
